@@ -1,5 +1,5 @@
 {
-  "name": "karma-commonjs",
+  "name": "karma-commonjs-coffee",
   "version": "0.0.7",
   "description": "A Karma plugin. Test CommonJS modules.",
   "main": "lib/plugin.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/lastday/karma-commonjs.git"
+    "url": "git://github.com/lastday/karma-commonjs-coffee.git"
   },
   "keywords": [
     "karma-plugin",
@@ -30,6 +30,7 @@
   "license": "MIT",
   "contributors": [
     "Pawel Kozlowski <pkozlowski.opensource@gmail.com>",
+    "Egor Smirnov <egorsmir@gmail.com>",
     "James Shore <jshore@jamesshore.com>"
   ]
 }
