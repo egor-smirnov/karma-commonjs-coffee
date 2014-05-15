@@ -65,6 +65,19 @@ describe('client', function() {
       expect(require('/', './foo').message).toEqual('hello from index.coffee');
     });
 
+    it('should resolve JS files first in paths like "./foo" if foo.js / foo.coffee does not exist', function () {
+
+      window.__cjs_module__['/foo/index.js'] = function(require, module, exports) {
+        exports.message = 'hello from index.js';
+      };
+
+      window.__cjs_module__['/foo/index.coffee'] = function(require, module, exports) {
+        exports.message = 'hello from index.coffee';
+      };
+
+      expect(require('/', './foo').message).toEqual('hello from index.js');
+    });
+
   });
 
 	describe('path resolving and normalization', function(){
