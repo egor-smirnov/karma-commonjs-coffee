@@ -27,13 +27,44 @@ describe('client', function() {
 		expect(require('/app.js', './bar').getText()).toEqual('bar foo');
 	});
 
-  it('should resolve paths like "./foo" to "./foo/Index.coffee" or "./foo/Index.coffee" if foo.js / foo.coffee does not exist', function () {
+  describe('resolving of index files for both JS and CoffeeScript', function () {
 
-    window.__cjs_module__['/foo/Index.coffee'] = function(require, module, exports) {
-      exports.message = 'hello from index.coffee';
-    };
+    it('should resolve paths like "./foo" to "./foo/Index.js" if foo.js does not exist', function () {
 
-    expect(require('/', './foo').message).toEqual('hello from index.coffee');
+      window.__cjs_module__['/foo/Index.js'] = function(require, module, exports) {
+        exports.message = 'hello from Index.js';
+      };
+
+      expect(require('/', './foo').message).toEqual('hello from Index.js');
+    });
+
+    it('should resolve paths like "./foo" to "./foo/index.js" if foo.js does not exist', function () {
+
+      window.__cjs_module__['/foo/index.js'] = function(require, module, exports) {
+        exports.message = 'hello from index.js';
+      };
+
+      expect(require('/', './foo').message).toEqual('hello from index.js');
+    });
+
+    it('should resolve paths like "./foo" to "./foo/Index.coffee" if foo.js / foo.coffee does not exist', function () {
+
+      window.__cjs_module__['/foo/Index.coffee'] = function(require, module, exports) {
+        exports.message = 'hello from Index.coffee';
+      };
+
+      expect(require('/', './foo').message).toEqual('hello from Index.coffee');
+    });
+
+    it('should resolve paths like "./foo" to "./foo/index.coffee" if foo.js / foo.coffee does not exist', function () {
+
+      window.__cjs_module__['/foo/index.coffee'] = function(require, module, exports) {
+        exports.message = 'hello from index.coffee';
+      };
+
+      expect(require('/', './foo').message).toEqual('hello from index.coffee');
+    });
+
   });
 
 	describe('path resolving and normalization', function(){
