@@ -66,7 +66,12 @@ function normalizePath(basePath, relativePath, modulesRoot) {
     var normalizedPath = baseComponents.join("/");
 
     if (normalizedPath.substr(normalizedPath.length - 3) !== ".js") {
-        normalizedPath += ".coffee";
+        if (isCoffeeScript(basePath)) {
+            normalizedPath += ".coffee";
+        }
+        else {
+            normalizedPath += ".js";
+        }
     }
 
     return normalizedPath;
@@ -82,4 +87,8 @@ function normalizePath(basePath, relativePath, modulesRoot) {
     function isNpmModulePath(path) {
       return path.charAt(0) !== ".";
     }
+}
+
+function isCoffeeScript(filepath) {
+  return filepath.slice(-7) === '.coffee';
 }
