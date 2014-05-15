@@ -14,7 +14,15 @@ function require(requiringFile, dependency) {
 
     // find module
     var moduleFn = window.__cjs_module__[dependency];
-    if (moduleFn === undefined) throw new Error("Could not find module '" + dependency + "' from '" + requiringFile + "'");
+
+    if (moduleFn === undefined) {
+        dependency = dependency.split('.')[0] + '/Index.coffee';
+        moduleFn = window.__cjs_module__[dependency];
+
+        if (moduleFn === undefined) {
+          throw new Error("Could not find module '" + dependency + "' from '" + requiringFile + "'");
+        }
+    }
 
     // run the module (if necessary)
     var module = cachedModules[dependency];
@@ -58,7 +66,7 @@ function normalizePath(basePath, relativePath, modulesRoot) {
     var normalizedPath = baseComponents.join("/");
 
     if (normalizedPath.substr(normalizedPath.length - 3) !== ".js") {
-        normalizedPath += ".js";
+        normalizedPath += ".coffee";
     }
 
     return normalizedPath;
