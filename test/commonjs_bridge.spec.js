@@ -41,7 +41,7 @@ describe('client', function() {
 			expect(normalizePath('/base/sub/foo.js', '../bar.js')).toEqual('/base/bar.js');
 		});
 
-		it('should add .js suffix if necessery', function(){
+		it('should add .js suffix if necessary', function(){
 			expect(normalizePath('/foo.js', './bar')).toEqual('/bar.js');
 		});
 
