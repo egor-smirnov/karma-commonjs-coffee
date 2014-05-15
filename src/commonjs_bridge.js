@@ -16,8 +16,22 @@ function require(requiringFile, dependency) {
     var moduleFn = window.__cjs_module__[dependency];
 
     if (moduleFn === undefined) {
-        dependency = dependency.split('.')[0] + '/Index.coffee';
-        moduleFn = window.__cjs_module__[dependency];
+        var possibleDependencies = [
+            dependency.split('.')[0] + '/Index.js',
+            dependency.split('.')[0] + '/index.js',
+            dependency.split('.')[0] + '/Index.coffee',
+            dependency.split('.')[0] + '/index.coffee'
+        ];
+
+        for (var i = 0; i < possibleDependencies.length; i++) {
+
+          dependency = possibleDependencies[i];
+          moduleFn = window.__cjs_module__[dependency];
+
+          if (typeof moduleFn !== 'undefined') {
+              break;
+          }
+        }
 
         if (moduleFn === undefined) {
           throw new Error("Could not find module '" + dependency + "' from '" + requiringFile + "'");
