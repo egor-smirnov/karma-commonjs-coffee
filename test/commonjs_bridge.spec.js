@@ -27,6 +27,15 @@ describe('client', function() {
 		expect(require('/app.js', './bar').getText()).toEqual('bar foo');
 	});
 
+  it('should resolve paths like "./foo" to "./foo/Index.coffee" or "./foo/Index.coffee" if foo.js / foo.coffee does not exist', function () {
+
+    window.__cjs_module__['/foo/Index.coffee'] = function(require, module, exports) {
+      exports.message = 'hello from index.coffee';
+    };
+
+    expect(require('/', './foo').message).toEqual('hello from index.coffee');
+  });
+
 	describe('path resolving and normalization', function(){
 
 		it('should properly resolve full paths', function(){
