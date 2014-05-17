@@ -1,18 +1,18 @@
-[![Build Status](https://travis-ci.org/karma-runner/karma-commonjs.svg?branch=master)](https://travis-ci.org/karma-runner/karma-commonjs)
+[![Build Status](https://travis-ci.org/lastday/karma-commonjs-coffee.svg?branch=master)](https://travis-ci.org/lastday/karma-commonjs-coffee)
 
-# karma-commonjs
+# karma-commonjs-coffee
 
-> A Karma plugin that allows testing [CommonJS] modules in the browser. So if you are using [Browserify] for instance, you might find this plugin useful...
+This is fork of [karma-commonjs] (http://github.com/karma-runner/karma-commonjs) which has better support of CoffeeScript including appropriate CoffeeScript coverage.
 
-### Why not just using Browserify for testing ?
+For more information about what karma-commonjs is for, please visit [this page](http://github.com/karma-runner/karma-commonjs)
 
-Creating a single bundle means "recompiling" the bundle anytime any file changes. On big project, this can significantly slow down the development. This plugin processes only files that changed.
+> Under development now, won't work as it should at the moment :(
 
 ## Installation
 
-The easiest way is to keep `karma-commonjs` as a devDependency:
+The easiest way is to keep `karma-commonjs-coffee` as a devDependency:
 
-`npm install karma-commonjs --save-dev`
+`npm install karma-commonjs-coffee --save-dev`
 
 which should result in the following entry in your `package.json`:
 
@@ -20,7 +20,7 @@ which should result in the following entry in your `package.json`:
 {
   "devDependencies": {
     "karma": "~0.10",
-    "karma-commonjs": "~0.2"
+    "karma-commonjs-coffee": "~0.2"
   }
 }
 ```
@@ -56,6 +56,7 @@ For an example project, check out Karma's [client tests](https://github.com/karm
 For more information on Karma see the [homepage].
 
 
-[homepage]: http://karma-runner.github.com
+[karma-commonjs]: http://github.com/karma-runner/karma-commonjs
+[Karma homepage]: http://karma-runner.github.com
 [CommonJS]: http://www.commonjs.org/
 [Browserify]: https://github.com/substack/node-browserify
