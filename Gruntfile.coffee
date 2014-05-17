@@ -45,12 +45,10 @@ module.exports = (grunt) ->
         configFile: 'karma.conf.js'
         autoWatch: false
         singleRun: true
-        reporters: ['dots']
-      client_auto:
+      tdd:
         configFile: 'karma.conf.js'
         autoWatch: true
         singleRun: false
-        reporters: ['dots']
 
     'npm-contributors':
       options:
@@ -69,7 +67,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-auto-release'
 
   grunt.registerTask 'default', ['karma:client', 'build']
-  grunt.registerTask 'test-watch', ['karma:client_auto']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
       'build'
