@@ -6,15 +6,18 @@ module.exports = function (grunt) {
 	 */
 	grunt.registerMultiTask('build', 'Wrap given file into a function call.', function () {
 
-		var src = grunt.file.expand(this.data).pop();
-		var dest = src.replace('src/', 'client/');
-		var wrapper = src.replace('.js', '.wrapper');
+		var files = grunt.file.expand(this.data);
 
-		grunt.file.copy(wrapper, dest, {process: function (content) {
-			var wrappers = content.split(/%CONTENT%\r?\n/);
-			return wrappers[0] + grunt.file.read(src) + wrappers[1];
-		}});
+		files.forEach(function (src) {
+			var dest = src.replace('src/', 'client/');
+			var wrapper = src.replace('.js', '.wrapper');
 
-		grunt.log.ok('Created ' + dest);
+			grunt.file.copy(wrapper, dest, {process: function (content) {
+				var wrappers = content.split(/%CONTENT%\r?\n/);
+				return wrappers[0] + grunt.file.read(src) + wrappers[1];
+			}});
+
+			grunt.log.ok('Created ' + dest);
+		});
 	});
 };
