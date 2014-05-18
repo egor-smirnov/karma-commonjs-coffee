@@ -1,7 +1,7 @@
 {
   "name": "karma-commonjs-coffee",
   "version": "0.0.12",
-  "description": "A Karma plugin. Test CommonJS modules.",
+  "description": "A Karma plugin. Test CommonJS modules with CoffeeScript support.",
   "main": "lib/plugin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,10 @@
   },
   "keywords": [
     "karma-plugin",
-    "commonjs"
+    "commonjs",
+	"coffee-script",
+	"coffee",
+	"browserify"
   ],
   "author": "Vojta Jina <vojta.jina@gmail.com>",
   "dependencies": {},
