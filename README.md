@@ -53,10 +53,7 @@ For an example project, check out Karma's [client tests](https://github.com/karm
 
 ----
 
-For more information on Karma see the [homepage].
-
-
-[karma-commonjs]: http://github.com/karma-runner/karma-commonjs
-[Karma homepage]: http://karma-runner.github.com
-[CommonJS]: http://www.commonjs.org/
-[Browserify]: https://github.com/substack/node-browserify
+[karma-commonjs](http://github.com/karma-runner/karma-commonjs)
+[Karma homepage](http://karma-runner.github.com)
+[CommonJS](http://www.commonjs.org/)
+[Browserify](https://github.com/substack/node-browserify)
