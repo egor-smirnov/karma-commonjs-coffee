@@ -28,6 +28,25 @@ describe('client', function () {
 			});
 		});
 
+		describe('resolve from coffee script files', function () {
+
+			beforeEach(function () {
+				window.__cjs_module__['/folder/foo.coffee'] = function (require, module, exports) {
+					exports.foo = true;
+				};
+			});
+
+			it('should resolve absolute dependencies in case of coffee script', function () {
+				expect(require('/folder/bar.coffee', '/folder/foo.coffee').foo).toBeTruthy();
+			});
+
+			it('should resolve relative dependencies in case of coffee script', function () {
+				expect(require('/folder/bar.coffee', './foo').foo).toBeTruthy();
+				expect(require('/folder/bar.coffee', './foo.coffee').foo).toBeTruthy();
+				expect(require('/folder/bar.coffee', './../folder/foo.coffee').foo).toBeTruthy();
+			});
+		});
+
 		describe('resolve from node_modules', function () {
 
 			beforeEach(function () {
@@ -62,6 +81,40 @@ describe('client', function () {
 				};
 				expect(require('/folder/bar.js', './foo').foo).toBeFalsy();
 			});
+
+			describe('resolve from folders in case of coffee script', function () {
+
+				it('should resolve paths like "./foo" to "./foo/index.coffee"', function () {
+
+					window.__cjs_module__['/foo/index.coffee'] = function (require, module, exports) {
+						exports.message = 'hello from index.coffee';
+					};
+
+					expect(require('/', './foo').message).toEqual('hello from index.coffee');
+				});
+
+				it('should resolve paths like "./foo" to "./foo/Index.coffee"', function () {
+
+					window.__cjs_module__['/foo/Index.coffee'] = function (require, module, exports) {
+						exports.message = 'hello from Index.coffee';
+					};
+
+					expect(require('/', './foo').message).toEqual('hello from Index.coffee');
+				});
+
+				it('should resolve index.js file before resolving index.coffee', function () {
+
+					window.__cjs_module__['/foo/index.js'] = function (require, module, exports) {
+						exports.message = 'hello from index.js';
+					};
+
+					window.__cjs_module__['/foo/index.coffee'] = function (require, module, exports) {
+						exports.message = 'hello from index.coffee';
+					};
+
+					expect(require('/', './foo').message).toEqual('hello from index.js');
+				});
+			});
 		});
 
 		describe('resolve - corner cases', function () {
@@ -95,57 +148,4 @@ describe('client', function () {
 			});
 		});
 	});
-
-	/*describe('resolving of index files for both JS and CoffeeScript', function () {
-
-		it('should resolve paths like "./foo" to "./foo/Index.js" if foo.js does not exist', function () {
-
-			window.__cjs_module__['/foo/Index.js'] = function (require, module, exports) {
-				exports.message = 'hello from Index.js';
-			};
-
-			expect(require('/', './foo').message).toEqual('hello from Index.js');
-		});
-
-		it('should resolve paths like "./foo" to "./foo/index.js" if foo.js does not exist', function () {
-
-			window.__cjs_module__['/foo/index.js'] = function (require, module, exports) {
-				exports.message = 'hello from index.js';
-			};
-
-			expect(require('/', './foo').message).toEqual('hello from index.js');
-		});
-
-		it('should resolve paths like "./foo" to "./foo/Index.coffee" if foo.js / foo.coffee does not exist', function () {
-
-			window.__cjs_module__['/foo/Index.coffee'] = function (require, module, exports) {
-				exports.message = 'hello from Index.coffee';
-			};
-
-			expect(require('/', './foo').message).toEqual('hello from Index.coffee');
-		});
-
-		it('should resolve paths like "./foo" to "./foo/index.coffee" if foo.js / foo.coffee does not exist', function () {
-
-			window.__cjs_module__['/foo/index.coffee'] = function (require, module, exports) {
-				exports.message = 'hello from index.coffee';
-			};
-
-			expect(require('/', './foo').message).toEqual('hello from index.coffee');
-		});
-
-		it('should resolve JS files first in paths like "./foo" if foo.js / foo.coffee does not exist', function () {
-
-			window.__cjs_module__['/foo/index.js'] = function (require, module, exports) {
-				exports.message = 'hello from index.js';
-			};
-
-			window.__cjs_module__['/foo/index.coffee'] = function (require, module, exports) {
-				exports.message = 'hello from index.coffee';
-			};
-
-			expect(require('/', './foo').message).toEqual('hello from index.js');
-		});
-
-	});*/
 });
