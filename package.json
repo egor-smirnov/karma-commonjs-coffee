@@ -1,6 +1,6 @@
 {
   "name": "karma-commonjs-coffee",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A Karma plugin. Test CommonJS modules with CoffeeScript support.",
   "main": "lib/plugin.js",
   "scripts": {
