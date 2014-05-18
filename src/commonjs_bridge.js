@@ -10,42 +10,31 @@ function require(requiringFile, dependency) {
 	if (window.__cjs_module__ === undefined) throw new Error("Could not find any modules. Did you remember to set 'preprocessors' in your Karma config?");
 	if (window.__cjs_modules_root__ === undefined) throw new Error("Could not find CommonJS module root path. Please report this issue to the karma-commonjs project.");
 
-	dependency = normalizePath(requiringFile, dependency, window.__cjs_modules_root__ || '');
+	var dependencyPaths = getDependencyPathCandidates(requiringFile, dependency, window.__cjs_modules_root__);
+	var dependencyPath;
 
-	// find module
-	var moduleFn = window.__cjs_module__[dependency];
+	for (var i = 0; i < dependencyPaths.length; i++) {
 
-	if (moduleFn === undefined) {
-		var possibleDependencies = [
-			dependency.split('.')[0] + '/Index.js',
-			dependency.split('.')[0] + '/index.js',
-			dependency.split('.')[0] + '/Index.coffee',
-			dependency.split('.')[0] + '/index.coffee'
-		];
+		dependencyPath = dependencyPaths[i];
 
-		for (var i = 0; i < possibleDependencies.length; i++) {
+		// find module
+		var moduleFn = window.__cjs_module__[dependencyPath];
+		if (moduleFn !== undefined) {
 
-			dependency = possibleDependencies[i];
-			moduleFn = window.__cjs_module__[dependency];
-
-			if (typeof moduleFn !== 'undefined') {
-				break;
+			// run the module (if necessary)
+			var module = cachedModules[dependencyPath];
+			if (module === undefined) {
+				module = { exports: {} };
+				cachedModules[dependencyPath] = module;
+				moduleFn(requireFn(dependencyPath), module, module.exports);
 			}
-		}
 
-		if (moduleFn === undefined) {
-			throw new Error("Could not find module '" + dependency + "' from '" + requiringFile + "'");
+			return module.exports;
 		}
 	}
 
-	// run the module (if necessary)
-	var module = cachedModules[dependency];
-	if (module === undefined) {
-		module = { exports: {} };
-		cachedModules[dependency] = module;
-		moduleFn(requireFn(dependency), module, module.exports);
-	}
-	return module.exports;
+	//none of the candidate paths was matching - throw
+	throw new Error("Could not find module '" + dependency + "' from '" + requiringFile + "'");
 }
 
 function requireFn(basepath) {
@@ -54,9 +43,9 @@ function requireFn(basepath) {
 	};
 }
 
-function normalizePath(basePath, relativePath, modulesRoot) {
+function getDependencyPathCandidates(basePath, relativePath, modulesRoot) {
 
-	if (isFullPath(relativePath)) return relativePath;
+	if (isFullPath(relativePath)) return [relativePath];
 	if (isNpmModulePath(relativePath)) basePath = modulesRoot;
 	if (!isFullPath(basePath)) throw new Error("basePath should be full path, but was [" + basePath + "]");
 
@@ -76,17 +65,14 @@ function normalizePath(basePath, relativePath, modulesRoot) {
 	}
 
 	var normalizedPath = baseComponents.join("/");
+	var dependencyPathCandidates = [normalizedPath];
 
 	if (normalizedPath.substr(normalizedPath.length - 3) !== ".js") {
-		if (isCoffeeScript(basePath)) {
-			normalizedPath += ".coffee";
-		}
-		else {
-			normalizedPath += ".js";
-		}
+		dependencyPathCandidates.push(normalizedPath + ".js");
+		dependencyPathCandidates.push(normalizedPath + "/index.js");
 	}
 
-	return normalizedPath;
+	return dependencyPathCandidates;
 
 
 	function isFullPath(path) {
