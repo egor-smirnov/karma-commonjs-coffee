@@ -5,6 +5,7 @@ describe('client', function () {
 		beforeEach(function () {
 			window.__cjs_module__ = {};
 			window.__cjs_modules_root__ = '/root';
+			cachedModules = {};
 		});
 
 		describe('resolve from a file', function () {
