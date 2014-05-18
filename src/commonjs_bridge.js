@@ -70,6 +70,10 @@ function getDependencyPathCandidates(basePath, relativePath, modulesRoot) {
 	if (normalizedPath.substr(normalizedPath.length - 3) !== ".js") {
 		dependencyPathCandidates.push(normalizedPath + ".js");
 		dependencyPathCandidates.push(normalizedPath + "/index.js");
+		dependencyPathCandidates.push(normalizedPath + "/Index.js");
+		dependencyPathCandidates.push(normalizedPath + ".coffee");
+		dependencyPathCandidates.push(normalizedPath + "/index.coffee");
+		dependencyPathCandidates.push(normalizedPath + "/Index.coffee");
 	}
 
 	return dependencyPathCandidates;
@@ -85,8 +89,4 @@ function getDependencyPathCandidates(basePath, relativePath, modulesRoot) {
 	function isNpmModulePath(path) {
 		return path.charAt(0) !== ".";
 	}
-}
-
-function isCoffeeScript(filepath) {
-	return filepath.slice(-7) === '.coffee';
 }
