@@ -1,7 +1,0 @@
-// Copyright (c) 2013 Titanium I.T. LLC. Licensed under the MIT license.
-(function(window) {
-    "use strict";
-
-	%CONTENT%
-
-})(window);
