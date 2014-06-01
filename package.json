@@ -13,9 +13,9 @@
   "keywords": [
     "karma-plugin",
     "commonjs",
-	"coffee-script",
-	"coffee",
-	"browserify"
+    "coffee-script",
+    "coffee",
+    "browserify"
   ],
   "author": "Vojta Jina <vojta.jina@gmail.com>",
   "dependencies": {},
@@ -32,8 +32,8 @@
   },
   "license": "MIT",
   "contributors": [
-    "Egor Smirnov <egorsmir@gmail.com>",
     "Pawel Kozlowski <pkozlowski.opensource@gmail.com>",
+    "Vojta Jina <vojta.jina@gmail.com>",
     "James Shore <jshore@jamesshore.com>"
   ]
 }
